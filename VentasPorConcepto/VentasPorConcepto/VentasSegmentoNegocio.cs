@@ -12,7 +12,7 @@ using System.Data.SqlClient;
 
 namespace VentasPorConcepto
 {
-    public partial class VentasSegmentoNegocio : ReporteBase
+    public partial class VentasSegmentoNegocio : ReporteBase 
     {
 
         string CadenaConexionC = "";
@@ -32,7 +32,7 @@ namespace VentasPorConcepto
             codigocatalogocomercial4.mSeteartipo(4,0);
             codigocatalogocomercial3.mSetLabelText("Producto Inicial");
             codigocatalogocomercial4.mSetLabelText("Producto Final");
-
+            MostrarForm4 = 0;
 
             
         }
@@ -146,7 +146,7 @@ namespace VentasPorConcepto
             }
             else
             {
-                Form4 x = new Form4();
+                Form5 x = new Form5();
                 x.Show();
             }
             empresasComercial2.SetTitulo("DATOS CONTABILIDAD");

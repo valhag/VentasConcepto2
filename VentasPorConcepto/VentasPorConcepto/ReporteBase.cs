@@ -20,6 +20,7 @@ namespace VentasPorConcepto
         public string Archivo = "";
         //public Form4 y = new Form4();
 
+        public int MostrarForm4 = 1;
          public Class1 x = new Class1();
 
         public ReporteBase()
@@ -30,9 +31,10 @@ namespace VentasPorConcepto
 
         private void ReporteBase_Load(object sender, EventArgs e)
         {
-            //y.Visible = false;
+            
             lrn.mSeteaDirectorio(Directory.GetCurrentDirectory());
 
+            if (MostrarForm4 == 1) { 
 
             string server = Properties.Settings.Default.server;
             //MessageBox.Show("server " + server);
@@ -44,21 +46,22 @@ namespace VentasPorConcepto
                 "; password = " + Properties.Settings.Default.password + ";";
                 //Archivo = Properties.Settings.Default.archivo;
             }
-            if (Cadenaconexion != "")
-                empresasComercial1.Populate(Cadenaconexion);
-            else
-            {
-                Form4 y = new Form4();
-                y.Visible = false;
-                DialogResult lresp = y.ShowDialog(this);
-                if (lresp == DialogResult.OK)
-                {
-                    Cadenaconexion = "data source =" + Properties.Settings.Default.server +
-                    ";initial catalog =" + Properties.Settings.Default.database + " ;user id = " + Properties.Settings.Default.user +
-                    "; password = " + Properties.Settings.Default.password + ";";
+                if (Cadenaconexion != "")
                     empresasComercial1.Populate(Cadenaconexion);
-                    //MessageBox.Show("Conexion correcta, volver a ejecutar el exe");
-                    //this.Close();
+                else
+                {
+                    Form4 y = new Form4();
+                    y.Visible = false;
+                    DialogResult lresp = y.ShowDialog(this);
+                    if (lresp == DialogResult.OK)
+                    {
+                        Cadenaconexion = "data source =" + Properties.Settings.Default.server +
+                        ";initial catalog =" + Properties.Settings.Default.database + " ;user id = " + Properties.Settings.Default.user +
+                        "; password = " + Properties.Settings.Default.password + ";";
+                        empresasComercial1.Populate(Cadenaconexion);
+                        //MessageBox.Show("Conexion correcta, volver a ejecutar el exe");
+                        //this.Close();
+                    }
                 }
             }
         }

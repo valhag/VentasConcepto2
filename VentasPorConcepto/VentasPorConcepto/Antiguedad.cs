@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using LibreriaDoctos;
+using System;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.SqlClient;
-using LibreriaDoctos;
 using MyExcel = Microsoft.Office.Interop.Excel;
 
-
+// Richard
 
 namespace VentasPorConcepto
 {
@@ -28,8 +25,8 @@ namespace VentasPorConcepto
         {
             Properties.Settings.Default.RutaEmpresaADM = empresasComercial1.aliasbdd;
             Properties.Settings.Default.Save();
-           // codigocatalogocomercial1.lrn.lbd.cadenaconexion = Cadenaconexion;
-           // codigocatalogocomercial1.lrn = lrn;
+            // codigocatalogocomercial1.lrn.lbd.cadenaconexion = Cadenaconexion;
+            // codigocatalogocomercial1.lrn = lrn;
 
         }
 
@@ -120,15 +117,15 @@ namespace VentasPorConcepto
             if (DateTime.Today > DateTime.Parse("2020/10/01"))
             {
                 //MessageBox.Show ("La configuracion de adminpaq no es correcta");
-              //  return ;
+                //  return ;
             }
 
             mTraerInformacionComercial(empresasComercial1.aliasbdd);
         }
 
-        
 
-//        public void mTraerInformacionComercial(StringBuilder lquery, string mEmpresa)
+
+        //        public void mTraerInformacionComercial(StringBuilder lquery, string mEmpresa)
         public void mTraerInformacionComercial(string mEmpresa)
 
         {
@@ -199,9 +196,9 @@ namespace VentasPorConcepto
             lquery.Append(" from admDocumentos d");
             lquery.Append(" join admClientes c on c.CIDCLIENTEPROVEEDOR = d.CIDCLIENTEPROVEEDOR");
             lquery.Append(" join admConceptos co on co.CIDCONCEPTODOCUMENTO = d.CIDCONCEPTODOCUMENTO");
-            
+
             if (radioButton1.Checked == true)
-            lquery.Append(" where d.CIDDOCUMENTODE = 4");
+                lquery.Append(" where d.CIDDOCUMENTODE = 4");
             else
                 lquery.Append(" where d.CIDDOCUMENTODE = 19");
 
@@ -237,12 +234,12 @@ namespace VentasPorConcepto
 
             mySqlDataAdapter.Fill(ds);
 
-             
+
             DatosReporte = ds.Tables[0];
             //if (ds.Tables.Count > 1)
             //    DatosDetalle = ds.Tables[1];
 
-            mReporteComercial( empresasComercial1.aliasbdd);
+            mReporteComercial(empresasComercial1.aliasbdd);
 
 
             _conexion1.Close();
@@ -301,7 +298,7 @@ namespace VentasPorConcepto
 
 
             if (radioButton1.Checked == true)
-            sheet.Cells[2, 5].value = "A / R Aging Summary";
+                sheet.Cells[2, 5].value = "A / R Aging Summary";
             else
                 sheet.Cells[2, 5].value = "A / R Aging Summary";
 
@@ -324,11 +321,12 @@ namespace VentasPorConcepto
             }
 
 
-            sheet.Cells[2, 11].value =   System.DateTime.Today;
+            sheet.Cells[2, 11].value = System.DateTime.Today;
 
             string mes1 = "";
-            switch (dateTimePicker1.Value.Month) {
-                case 1:mes1 = "JANUARY"; break;
+            switch (dateTimePicker1.Value.Month)
+            {
+                case 1: mes1 = "JANUARY"; break;
                 case 2: mes1 = "FEBRUARY"; break;
                 case 3: mes1 = "MARCH"; break;
                 case 4: mes1 = "APRIL"; break;
@@ -340,7 +338,7 @@ namespace VentasPorConcepto
                 case 10: mes1 = "OCTOBER"; break;
                 case 11: mes1 = "NOVEMBER"; break;
                 case 12: mes1 = "DECEMBER"; break;
-               
+
             }
 
             sheet.Cells[3, 5].value = "As of:" + mes1 + " " + dateTimePicker1.Value.Day + "," + dateTimePicker1.Value.Year.ToString();
@@ -443,9 +441,9 @@ namespace VentasPorConcepto
             decimal dos, tres;
             int lcolumna;
 
-            string sumtotal ="";
+            string sumtotal = "";
 
-            string sumactual ="";
+            string sumactual = "";
             string sumperiodo130 = "";
             string sumperiodo3160 = "";
             string sumperiodo6190 = "";
@@ -471,7 +469,7 @@ namespace VentasPorConcepto
                     if (lrenglon != 7)
                     {
 
-                        sheet.get_Range( "A"+ lrenglon, "L" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeBottom].LineStyle = 1;
+                        sheet.get_Range("A" + lrenglon, "L" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeBottom].LineStyle = 1;
                         sheet.get_Range("A" + lrenglon, "L" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeLeft].LineStyle = 1;
                         sheet.get_Range("A" + lrenglon, "L" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeTop].LineStyle = 1;
                         sheet.get_Range("A" + lrenglon, "L" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeRight].LineStyle = 1;
@@ -495,8 +493,8 @@ namespace VentasPorConcepto
                         sheet.get_Range("G" + lrenglon.ToString(), "K" + lrenglon.ToString()).Style = "Comma";
 
                         sheet.Cells[lrenglon++, 11].value = sumperiodo91;
-                        sheet.get_Range("A" + (lrenglon-1).ToString(), "K" + (lrenglon-1).ToString()).Font.Size = 8;
-                        
+                        sheet.get_Range("A" + (lrenglon - 1).ToString(), "K" + (lrenglon - 1).ToString()).Font.Size = 8;
+
 
                         //sheet.get_Range(inicio + lrenglon, fin + (lrenglon + lagregarenglon)).Borders[MyExcel.XlBordersIndex.xlEdgeLeft].LineStyle = 1;
                         //sheet.get_Range(inicio + lrenglon, fin + (lrenglon + lagregarenglon)).Borders[MyExcel.XlBordersIndex.xlEdgeRight].LineStyle = 1;
@@ -514,7 +512,7 @@ namespace VentasPorConcepto
 
                     sumperiodo130 = row["sumperiodo130"].ToString().Trim();
 
-                    sumperiodo3160= row["sumperiodo3160"].ToString().Trim();
+                    sumperiodo3160 = row["sumperiodo3160"].ToString().Trim();
                     sumperiodo6190 = row["sumperiodo6190"].ToString().Trim();
 
                     sumperiodo91 = row["sumperiodo91"].ToString().Trim();
@@ -540,11 +538,11 @@ namespace VentasPorConcepto
                         sheet.Cells[lrenglon++, lcolumna].value = "Customer:" + row["CCODIGOCLIENTE"].ToString().Trim();
                     else
                         sheet.Cells[lrenglon++, lcolumna].value = "Supplier:" + row["CCODIGOCLIENTE"].ToString().Trim();
-                    
+
 
                     int diapago = int.Parse(row["CDIAPAGO"].ToString().Trim());
                     //diapago = 3;
-                    string otro="";
+                    string otro = "";
                     var b = 1;
                     b = diapago & 1;
                     if (b != 0)
@@ -607,20 +605,20 @@ namespace VentasPorConcepto
 
 
                     //if (diapago & 0)
-                    otro = otro.Substring(0,otro.Length-1);
+                    otro = otro.Substring(0, otro.Length - 1);
 
                     //sheet.Cells[lrenglon++, lcolumna].value = "Payment Days:" + otro;
 
                     //sheet.Cells[lrenglon++, lcolumna].value = "Revision Days:" + otro1;
                     sheet.Cells[lrenglon++, lcolumna].value = "Name:" + row["CRAZONSOCIAL"].ToString().Trim();
 
-                    sheet.get_Range("A" + (lrenglon-2).ToString(), "A" + (lrenglon-1).ToString()).Font.Size = 8;
+                    sheet.get_Range("A" + (lrenglon - 2).ToString(), "A" + (lrenglon - 1).ToString()).Font.Size = 8;
                     sheet.get_Range("A" + (lrenglon - 2).ToString(), "A" + (lrenglon - 1).ToString()).Font.Bold = true;
 
 
                     sheet.get_Range("A" + (lrenglon - 1).ToString(), "A" + (lrenglon - 2).ToString()).Borders[MyExcel.XlBordersIndex.xlEdgeBottom].LineStyle = 1;
-                    sheet.get_Range("A" + (lrenglon - 1).ToString(), "A" + (lrenglon-2).ToString()).Borders[MyExcel.XlBordersIndex.xlEdgeLeft].LineStyle = 1;
-                    sheet.get_Range("A" + (lrenglon - 1).ToString(), "A" + (lrenglon-2).ToString()).Borders[MyExcel.XlBordersIndex.xlEdgeTop].LineStyle = 1;
+                    sheet.get_Range("A" + (lrenglon - 1).ToString(), "A" + (lrenglon - 2).ToString()).Borders[MyExcel.XlBordersIndex.xlEdgeLeft].LineStyle = 1;
+                    sheet.get_Range("A" + (lrenglon - 1).ToString(), "A" + (lrenglon - 2).ToString()).Borders[MyExcel.XlBordersIndex.xlEdgeTop].LineStyle = 1;
                     sheet.get_Range("A" + (lrenglon - 1).ToString(), "A" + (lrenglon - 2).ToString()).Borders[MyExcel.XlBordersIndex.xlEdgeRight].LineStyle = 1;
                     sheet.get_Range("A" + (lrenglon - 1).ToString(), "A" + (lrenglon - 2).ToString()).Borders[MyExcel.XlBordersIndex.xlInsideHorizontal].LineStyle = 1;
 
@@ -645,7 +643,7 @@ namespace VentasPorConcepto
 
                 sheet.Cells[lrenglon, lcolumna++].value = row["CSERIEDOCUMENTO"].ToString().Trim();
                 sheet.get_Range("G" + lrenglon.ToString(), "K" + lrenglon.ToString()).Style = "Comma";
-                
+
 
 
                 sheet.Cells[lrenglon, lcolumna++].value = row["CFOLIO"].ToString().Trim(); //Serie Cargo
