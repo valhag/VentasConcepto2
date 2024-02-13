@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using LibreriaDoctos;
 using MyExcel = Microsoft.Office.Interop.Excel;
+using System.IO;
 
 
 
@@ -35,6 +36,7 @@ namespace VentasPorConcepto
 
         private void Antiguedad_Load(object sender, EventArgs e)
         {
+            lrn.mSeteaDirectorio(Directory.GetCurrentDirectory());
 
             codigocatalogocomercial3.Visible = false;
             codigocatalogocomercial4.Visible = false;
@@ -53,6 +55,19 @@ namespace VentasPorConcepto
             codigocatalogocomercial4.TextLeave += new EventHandler(OnTextLeave4);
 
             empresasComercial1.SelectedItem += new EventHandler(OnComboChange);
+
+            codigocatalogocomercial3.mSeteartipo(3);
+            codigocatalogocomercial4.mSeteartipo(3);
+            codigocatalogocomercial1.mSeteartipo(2);
+            codigocatalogocomercial2.mSeteartipo(2);
+
+            codigocatalogocomercial3.mSetLibreria(lrn);
+            codigocatalogocomercial4.mSetLibreria(lrn); ;
+            codigocatalogocomercial1.mSetLibreria(lrn); ;
+            codigocatalogocomercial2.mSetLibreria(lrn); ;
+
+            Properties.Settings.Default.RutaEmpresaADM = empresasComercial1.aliasbdd;
+            Properties.Settings.Default.Save();
         }
 
         public void OnTextLeave1(object sender, EventArgs e)
@@ -362,91 +377,43 @@ namespace VentasPorConcepto
             //mEncabezadoCelda(MyExcel.Worksheet sheet, string inicio, string fin, int lrenglon, int lagregarenglon, int tamano, string texto, Boolean Bold = true)
 
 
-            mEncabezadoCelda(sheet, "A", "A", 5, 0, 8, "Due Date", false);
-            mEncabezadoCelda(sheet, "B", "B", 5, 0, 8, "Date", false);
-            mEncabezadoCelda(sheet, "C", "C", 5, 0, 8, "Serie", false);
-
-            mEncabezadoCelda(sheet, "D", "D", 5, 0, 8, "Invoice", false);
-            mEncabezadoCelda(sheet, "E", "E", 5, 0, 8, "Due Days", false);
-
-            mEncabezadoCelda(sheet, "F", "F", 5, 0, 8, "Payment Term", false);
-            mEncabezadoCelda(sheet, "G", "G", 5, 0, 8, "Currency", false);
+            mEncabezadoCelda(sheet, "A", "A", 5, 0, 8, "Vendor", false);
+            mEncabezadoCelda(sheet, "B", "B", 5, 0, 8, "Vendor Name", false);
 
 
-            mEncabezadoCelda(sheet, "H", "H", 5, 0, 8, "TOTAL", false);
-            mEncabezadoCelda(sheet, "I", "I", 5, 0, 8, "Current", false);
-            mEncabezadoCelda(sheet, "J", "J", 5, 0, 8, "01-30", false);
-            mEncabezadoCelda(sheet, "K", "K", 5, 0, 8, "31-60", false);
-            mEncabezadoCelda(sheet, "L", "L", 5, 0, 8, "61-90", false);
-            mEncabezadoCelda(sheet, "M", "M", 5, 0, 8, "91", false);
-            mEncabezadoCelda(sheet, "N", "N", 5, 0, 8, "Concept", false);
+            mEncabezadoCelda(sheet, "C", "C", 5, 0, 8, "Due Date", false);
+            mEncabezadoCelda(sheet, "D", "D", 5, 0, 8, "Date", false);
+            mEncabezadoCelda(sheet, "E", "E", 5, 0, 8, "Serie", false);
 
-            sheet.get_Range("A" + 5.ToString(), "N" +
+            mEncabezadoCelda(sheet, "F", "F", 5, 0, 8, "Invoice", false);
+            mEncabezadoCelda(sheet, "G", "G", 5, 0, 8, "Due Days", false);
+
+            mEncabezadoCelda(sheet, "H", "H", 5, 0, 8, "Payment Term", false);
+            mEncabezadoCelda(sheet, "I", "I", 5, 0, 8, "Currency", false);
+
+
+            mEncabezadoCelda(sheet, "J", "J", 5, 0, 8, "TOTAL", false);
+            mEncabezadoCelda(sheet, "K", "K", 5, 0, 8, "Current", false);
+            mEncabezadoCelda(sheet, "L", "L", 5, 0, 8, "01-30", false);
+            mEncabezadoCelda(sheet, "M", "M", 5, 0, 8, "31-60", false);
+            mEncabezadoCelda(sheet, "N", "N", 5, 0, 8, "61-90", false);
+            mEncabezadoCelda(sheet, "O", "O", 5, 0, 8, "91", false);
+            mEncabezadoCelda(sheet, "P", "P", 5, 0, 8, "Concept", false);
+
+            
+            sheet.get_Range("A" + 5.ToString(), "P" +
             5.ToString()).Interior.Color = Color.LightGray;
 
 
 
-            //    Date Serie   Invoice Due Days TOTAL   Current 01 - 30 31 - 60   61 - 90   91  Concept
-
-
-            /*mEncabezadoCelda(sheet, "D", "D", 5, 0, 8, "Balance", false);
-            mEncabezadoCelda(sheet, "E", "E", 5, 0, 8, "Number", false);
-            mEncabezadoCelda(sheet, "F", "F", 5, 0, 8, "Days", false);
-            mEncabezadoCelda(sheet, "G", "G", 5, 0, 8, "Current", false);
-            mEncabezadoCelda(sheet, "H", "H", 5, 0, 8, "1-30", false);
-            mEncabezadoCelda(sheet, "I", "I", 5, 0, 8, "31-60", false);
-            mEncabezadoCelda(sheet, "J", "J", 5, 0, 8, "61-90", false);
-            mEncabezadoCelda(sheet, "K", "K", 5, 0, 8, "91", false);
-
-
-            mEncabezadoCelda(sheet, "A", "A", 6, 0, 8, "Due Date", false);
-            mEncabezadoCelda(sheet, "B", "B", 6, 0, 8, "Date", false);
-            mEncabezadoCelda(sheet, "C", "C", 6, 0, 8, "Serie", false);
-
-            mEncabezadoCelda(sheet, "D", "D", 6, 0, 8, "Total", false);
-            if (radioButton1.Checked == true)
-                mEncabezadoCelda(sheet, "E", "E", 6, 0, 8, "Invoice", false);
-            else
-                mEncabezadoCelda(sheet, "E", "E", 6, 0, 8, "Purchase", false);
-
-            mEncabezadoCelda(sheet, "F", "F", 6, 0, 8, "", false);
-            mEncabezadoCelda(sheet, "G", "G", 6, 0, 8, "", false);
-            mEncabezadoCelda(sheet, "H", "H", 6, 0, 8, "Days", false);
-            mEncabezadoCelda(sheet, "I", "I", 6, 0, 8, "Days", false);
-            mEncabezadoCelda(sheet, "J", "J", 6, 0, 8, "Days", false);
-            mEncabezadoCelda(sheet, "K", "K", 6, 0, 8, "Days", false);
-            mEncabezadoCelda(sheet, "L", "L", 6, 0, 8, "Concept", false);
-
-    **/
-            //mEncabezadoCelda(sheet, "A", "A", 6, 0, 8, "Due", false);
-            //mEncabezadoCelda(sheet, "B", "B", 6, 0, 8, "Date", false);
-            //mEncabezadoCelda(sheet, "C", "C", 6, 0, 8, "Serie", false);
-
-            /*mEncabezadoCelda(sheet, "A", "A", 6, 0, 8, "", false);
-            mEncabezadoCelda(sheet, "B", "B", 6, 0, 8, "", false);
-            mEncabezadoCelda(sheet, "C", "C", 6, 0, 8, "", false);
-                                              
-            mEncabezadoCelda(sheet, "D", "D", 6, 0, 8, "", false);
-            mEncabezadoCelda(sheet, "E", "E", 6, 0, 8, "", false);
-            mEncabezadoCelda(sheet, "F", "F", 6, 0, 8, "", false);
-            mEncabezadoCelda(sheet, "G", "G", 6, 0, 8, "", false);
-            mEncabezadoCelda(sheet, "H", "H", 6, 0, 8, "", false);
-            mEncabezadoCelda(sheet, "I", "I", 6, 0, 8, "", false);
-            mEncabezadoCelda(sheet, "J", "J", 6, 0, 8, "", false);
-            mEncabezadoCelda(sheet, "K", "K", 6, 0, 8, "", false);
-            mEncabezadoCelda(sheet, "L", "L", 6, 0, 8, "", false);
-            */
-
             lrenglon = 6;
-            //mResetearrTotales();
-
+            
             string lconcepto = "";
 
 
             string lcliente = "";
-            //sheet.get_Range("B" + lrengloninicial, "V" + lrengloninicial).Borders[MyExcel.XlBordersIndex.xlEdgeBottom].LineStyle = 1;
             int lmismoconcepto = 0;
-            lrenglon += 1;
+            //lrenglon += 1;
             lrengloniniciaconcepto = lrenglon;
             decimal dos, tres;
             int lcolumna;
@@ -476,7 +443,7 @@ namespace VentasPorConcepto
                 lcolumna = 1;
                 if (lcliente != row["CCODIGOCLIENTE"].ToString().Trim())
                 {
-                    if (lrenglon != 7)
+                    if (lrenglon != 6)
                     {
 
                         sheet.get_Range( "A"+ lrenglon, "M" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeBottom].LineStyle = 1;
@@ -485,7 +452,7 @@ namespace VentasPorConcepto
                         sheet.get_Range("A" + lrenglon, "M" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeRight].LineStyle = 1;
                         sheet.get_Range("A" + lrenglon, "M" + lrenglon).Borders[MyExcel.XlBordersIndex.xlInsideVertical].LineStyle = 1;
 
-                        sheet.Cells[++lrenglon, 8].value = sumtotal;
+                        sheet.Cells[lrenglon, 10].value = sumtotal;
 
                         sheet.get_Range("A" + lrenglon, "M" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeBottom].LineStyle = 1;
                         sheet.get_Range("A" + lrenglon, "M" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeLeft].LineStyle = 1;
@@ -494,18 +461,18 @@ namespace VentasPorConcepto
                         sheet.get_Range("A" + lrenglon, "M" + lrenglon).Borders[MyExcel.XlBordersIndex.xlInsideVertical].LineStyle = 1;
 
 
-                        sheet.Cells[lrenglon, 9].value = sumactual;
+                        sheet.Cells[lrenglon, 11].value = sumactual;
 
-                        sheet.Cells[lrenglon, 10].value = sumperiodo130;
+                        sheet.Cells[lrenglon, 12].value = sumperiodo130;
 
-                        sheet.Cells[lrenglon, 11].value = sumperiodo3160;
-                        sheet.Cells[lrenglon, 12].value = sumperiodo6190;
+                        sheet.Cells[lrenglon, 13].value = sumperiodo3160;
+                        sheet.Cells[lrenglon, 14].value = sumperiodo6190;
                         //sheet.get_Range("G" + lrenglon.ToString(), "K" + lrenglon.ToString()).Style = "Comma";
-                        sheet.get_Range("I" + lrenglon.ToString(), "M" + lrenglon.ToString()).Style = "Comma";
+                        sheet.get_Range("K" + lrenglon.ToString(), "O" + lrenglon.ToString()).Style = "Comma";
 
 
-                        sheet.Cells[lrenglon++, 13].value = sumperiodo91;
-                        sheet.get_Range("A" + (lrenglon-1).ToString(), "M" + (lrenglon-1).ToString()).Font.Size = 8;
+                        sheet.Cells[lrenglon++, 15].value = sumperiodo91;
+                        sheet.get_Range("A" + (lrenglon-1).ToString(), "P" + (lrenglon-1).ToString()).Font.Size = 8;
                         
 
                         //sheet.get_Range(inicio + lrenglon, fin + (lrenglon + lagregarenglon)).Borders[MyExcel.XlBordersIndex.xlEdgeLeft].LineStyle = 1;
@@ -546,11 +513,12 @@ namespace VentasPorConcepto
                     sheet.get_Range("A" + (lrenglon).ToString(), "N" + (lrenglon).ToString()).Font.Size = 8;
                     sheet.get_Range("A" + (lrenglon).ToString(), "A" + lrenglon).Font.Bold = true;
 
+                    /*
                     if (radioButton1.Checked == true)
                         sheet.Cells[lrenglon++, lcolumna].value = "Customer:" + row["CCODIGOCLIENTE"].ToString().Trim();
                     else
                         sheet.Cells[lrenglon++, lcolumna].value = "Supplier:" + row["CCODIGOCLIENTE"].ToString().Trim();
-                    
+                    */
 
                     int diapago = int.Parse(row["CDIAPAGO"].ToString().Trim());
                     //diapago = 3;
@@ -622,7 +590,7 @@ namespace VentasPorConcepto
                     //sheet.Cells[lrenglon++, lcolumna].value = "Payment Days:" + otro;
 
                     //sheet.Cells[lrenglon++, lcolumna].value = "Revision Days:" + otro1;
-                    sheet.Cells[lrenglon++, lcolumna].value = "Name:" + row["CRAZONSOCIAL"].ToString().Trim();
+                    //sheet.Cells[lrenglon++, lcolumna].value = "Name:" + row["CRAZONSOCIAL"].ToString().Trim();
 
                     sheet.get_Range("A" + (lrenglon-2).ToString(), "A" + (lrenglon-1).ToString()).Font.Size = 8;
                     sheet.get_Range("A" + (lrenglon - 2).ToString(), "A" + (lrenglon - 1).ToString()).Font.Bold = true;
@@ -641,20 +609,29 @@ namespace VentasPorConcepto
 
                 lcolumna = 1;
                 //sheet.Cells[lrenglon, lcolumna++].value = lrenglon; //Folio Cargo
+
+
+
                 DateTime dfecha = DateTime.Parse(row["cfecha"].ToString().Trim());
 
                 DateTime dfechav = DateTime.Parse(row["CFECHAVENCIMIENTO"].ToString().Trim());
                 string fecha2 = dfecha.Day.ToString().PadLeft(2, '0') + "/" + row["MES"].ToString().PadLeft(2, '0') + "/" + dfecha.Year.ToString().PadLeft(4, '0');
                 string fechav = dfechav.Day.ToString().PadLeft(2, '0') + "/" + row["MESvenc"].ToString().Trim() + "/" + dfechav.Year.ToString().PadLeft(4, '0');
 
+
+                sheet.Cells[lrenglon, lcolumna++].value = "'" + row["ccodigocliente"].ToString().Trim(); ;
+
+                sheet.Cells[lrenglon, lcolumna++].value = "'" + row["CRAZONSOCIAL"].ToString().Trim(); ;
+
+
                 sheet.Cells[lrenglon, lcolumna++].value = "'" + fechav;
                 sheet.Cells[lrenglon, lcolumna++].value = "'" + fecha2;
 
-                sheet.get_Range("A" + (lrenglon).ToString(), "N" + lrenglon).Font.Size = 8;
+                sheet.get_Range("A" + (lrenglon).ToString(), "P" + lrenglon).Font.Size = 8;
 
 
                 sheet.Cells[lrenglon, lcolumna++].value = row["CSERIEDOCUMENTO"].ToString().Trim();
-                sheet.get_Range("I" + lrenglon.ToString(), "M" + lrenglon.ToString()).Style = "Comma";
+                sheet.get_Range("K" + lrenglon.ToString(), "O" + lrenglon.ToString()).Style = "Comma";
                 
 
 
@@ -679,11 +656,11 @@ namespace VentasPorConcepto
                 sheet.Cells[lrenglon, lcolumna++].value = row["PERIODO91"].ToString().Trim(); //Fecha Cargo
                 sheet.Cells[lrenglon, lcolumna++].value = row["cnombreconcepto"].ToString().Trim(); //Fecha Cargo
 
-                sheet.get_Range("A" + (lrenglon).ToString(), "N" + (lrenglon).ToString()).Borders[MyExcel.XlBordersIndex.xlEdgeBottom].LineStyle = 1;
-                sheet.get_Range("A" + (lrenglon).ToString(), "N" + (lrenglon).ToString()).Borders[MyExcel.XlBordersIndex.xlEdgeLeft].LineStyle = 1;
-                sheet.get_Range("A" + (lrenglon).ToString(), "N" + (lrenglon).ToString()).Borders[MyExcel.XlBordersIndex.xlEdgeTop].LineStyle = 1;
-                sheet.get_Range("A" + (lrenglon).ToString(), "N" + (lrenglon).ToString()).Borders[MyExcel.XlBordersIndex.xlEdgeRight].LineStyle = 1;
-                sheet.get_Range("A" + (lrenglon).ToString(), "N" + (lrenglon).ToString()).Borders[MyExcel.XlBordersIndex.xlInsideVertical].LineStyle = 1;
+                sheet.get_Range("A" + (lrenglon).ToString(), "P" + (lrenglon).ToString()).Borders[MyExcel.XlBordersIndex.xlEdgeBottom].LineStyle = 1;
+                sheet.get_Range("A" + (lrenglon).ToString(), "P" + (lrenglon).ToString()).Borders[MyExcel.XlBordersIndex.xlEdgeLeft].LineStyle = 1;
+                sheet.get_Range("A" + (lrenglon).ToString(), "P" + (lrenglon).ToString()).Borders[MyExcel.XlBordersIndex.xlEdgeTop].LineStyle = 1;
+                sheet.get_Range("A" + (lrenglon).ToString(), "P" + (lrenglon).ToString()).Borders[MyExcel.XlBordersIndex.xlEdgeRight].LineStyle = 1;
+                sheet.get_Range("A" + (lrenglon).ToString(), "P" + (lrenglon).ToString()).Borders[MyExcel.XlBordersIndex.xlInsideVertical].LineStyle = 1;
 
 
                 //sheet.Cells[lrenglon, lcolumna++].value = "'" + fecha2; //C
@@ -694,49 +671,49 @@ namespace VentasPorConcepto
 
             }
 
-            sheet.get_Range("A" + lrenglon, "M" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeBottom].LineStyle = 1;
-            sheet.get_Range("A" + lrenglon, "M" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeLeft].LineStyle = 1;
-            sheet.get_Range("A" + lrenglon, "M" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeTop].LineStyle = 1;
-            sheet.get_Range("A" + lrenglon, "M" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeRight].LineStyle = 1;
-            sheet.get_Range("A" + lrenglon, "M" + lrenglon).Borders[MyExcel.XlBordersIndex.xlInsideVertical].LineStyle = 1;
+            sheet.get_Range("A" + lrenglon, "O" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeBottom].LineStyle = 1;
+            sheet.get_Range("A" + lrenglon, "O" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeLeft].LineStyle = 1;
+            sheet.get_Range("A" + lrenglon, "O" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeTop].LineStyle = 1;
+            sheet.get_Range("A" + lrenglon, "O" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeRight].LineStyle = 1;
+            sheet.get_Range("A" + lrenglon, "O" + lrenglon).Borders[MyExcel.XlBordersIndex.xlInsideVertical].LineStyle = 1;
 
-            sheet.Cells[++lrenglon, 8].value = sumtotal;
+            sheet.Cells[++lrenglon, 10].value = sumtotal;
 
-            sheet.get_Range("A" + lrenglon, "M" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeBottom].LineStyle = 1;
-            sheet.get_Range("A" + lrenglon, "M" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeLeft].LineStyle = 1;
-            sheet.get_Range("A" + lrenglon, "M" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeTop].LineStyle = 1;
-            sheet.get_Range("A" + lrenglon, "M" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeRight].LineStyle = 1;
-            sheet.get_Range("A" + lrenglon, "M" + lrenglon).Borders[MyExcel.XlBordersIndex.xlInsideVertical].LineStyle = 1;
+            sheet.get_Range("A" + lrenglon, "O" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeBottom].LineStyle = 1;
+            sheet.get_Range("A" + lrenglon, "O" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeLeft].LineStyle = 1;
+            sheet.get_Range("A" + lrenglon, "O" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeTop].LineStyle = 1;
+            sheet.get_Range("A" + lrenglon, "O" + lrenglon).Borders[MyExcel.XlBordersIndex.xlEdgeRight].LineStyle = 1;
+            sheet.get_Range("A" + lrenglon, "O" + lrenglon).Borders[MyExcel.XlBordersIndex.xlInsideVertical].LineStyle = 1;
 
 
-            sheet.Cells[lrenglon, 9].value = sumactual;
+            sheet.Cells[lrenglon,11].value = sumactual;
 
-            sheet.Cells[lrenglon, 10].value = sumperiodo130;
+            sheet.Cells[lrenglon, 12].value = sumperiodo130;
 
-            sheet.Cells[lrenglon, 11].value = sumperiodo3160;
-            sheet.Cells[lrenglon, 12].value = sumperiodo6190;
-            sheet.get_Range("I" + lrenglon.ToString(), "M" + lrenglon.ToString()).Style = "Comma";
+            sheet.Cells[lrenglon, 13].value = sumperiodo3160;
+            sheet.Cells[lrenglon, 14].value = sumperiodo6190;
+            sheet.get_Range("K" + lrenglon.ToString(), "O" + lrenglon.ToString()).Style = "Comma";
 
             sheet.Cells[lrenglon++, 13].value = sumperiodo91;
-            sheet.get_Range("A" + (lrenglon - 1).ToString(), "N" + (lrenglon - 1).ToString()).Font.Size = 8;
+            sheet.get_Range("A" + (lrenglon - 1).ToString(), "P" + (lrenglon - 1).ToString()).Font.Size = 8;
 
 
             lrenglon += 2;
 
-            sheet.Cells[lrenglon, 7].value = "TOTAL";
+            sheet.Cells[lrenglon, 9].value = "TOTAL";
 
-            sheet.Cells[lrenglon, 8].value = sumgtotal;
-            sheet.Cells[lrenglon, 9].value = sumgactual;
-            sheet.Cells[lrenglon, 10].value = sumgperiodo130;
-            sheet.Cells[lrenglon, 11].value = sumgperiodo3160;
-            sheet.Cells[lrenglon, 12].value = sumgperiodo6190;
-            sheet.Cells[lrenglon, 13].value = sumgperiodo91;
+            sheet.Cells[lrenglon, 10].value = sumgtotal;
+            sheet.Cells[lrenglon, 11].value = sumgactual;
+            sheet.Cells[lrenglon, 12].value = sumgperiodo130;
+            sheet.Cells[lrenglon, 13].value = sumgperiodo3160;
+            sheet.Cells[lrenglon, 14].value = sumgperiodo6190;
+            sheet.Cells[lrenglon, 15].value = sumgperiodo91;
             //TOTAL Current 30 - ene  31 - 60   61 - 90   91
             //sheet.get_Range("E" + (lrenglon).ToString(), "K" + (lrenglon).ToString()).Font.Size = 8;
-            sheet.get_Range("E" + (lrenglon).ToString(), "M" + (lrenglon).ToString()).Font.Bold = true;
-            sheet.get_Range("E" + lrenglon.ToString(), "M" +
+            sheet.get_Range("E" + (lrenglon).ToString(), "O" + (lrenglon).ToString()).Font.Bold = true;
+            sheet.get_Range("E" + lrenglon.ToString(), "O" +
             lrenglon.ToString()).Interior.Color = Color.LightGray;
-            sheet.get_Range("F" + lrenglon.ToString(), "M" + lrenglon.ToString()).Style = "Comma";
+            sheet.get_Range("F" + lrenglon.ToString(), "O" + lrenglon.ToString()).Style = "Comma";
 
 
 
